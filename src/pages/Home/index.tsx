@@ -2,6 +2,7 @@ import { handleError } from '@/utils';
 import { Button, Input, Select } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
+import io from 'socket.io-client';
 interface audioInType {
   id: string;
   kind: string;
@@ -202,6 +203,9 @@ const HomePage: React.FC = () => {
       );
       console.log(info);
     });
+
+    const socket = io('ws://127.0.0.1:18080');
+    console.log(socket);
   }, []);
 
   return (

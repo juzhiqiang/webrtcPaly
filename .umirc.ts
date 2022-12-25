@@ -20,14 +20,9 @@ export default defineConfig({
       component: './Home',
     },
     {
-      name: '权限演示',
-      path: '/access',
-      component: './Access',
-    },
-    {
-      name: ' CRUD 示例',
-      path: '/table',
-      component: './Table',
+      name: '核心对象 PeerConnection',
+      path: '/SessionFlow',
+      component: './SessionFlow',
     },
   ],
   npmClient: 'pnpm',
