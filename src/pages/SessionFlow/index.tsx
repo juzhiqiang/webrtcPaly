@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
 import io from 'socket.io-client';
 import { Input, Tag } from 'antd';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  SwapOutlined,
+  WhatsAppOutlined,
+} from '@ant-design/icons';
 const SessionFlow: React.FC = () => {
   const [roomUserList, setRoomUserList] = useState([]);
   const [userInfo, setUserInfo] = useState<any>({
@@ -103,7 +107,7 @@ const SessionFlow: React.FC = () => {
         console.log('Data channel ------------open----------------');
       };
       ev.channel.onmessage = function (data: any) {
-        console.log('Data channel ------------msg----------------', data);
+        console.log('接收消息 ------------msg----------------', data);
         setFormInline({
           ...formInline,
           rtcmessageRes: data.data,
@@ -185,6 +189,7 @@ const SessionFlow: React.FC = () => {
     if (!channel.current) {
       alert('请先建立webrtc连接');
     }
+    console.log(formInline.rtcmessage);
     channel.current.send(formInline.rtcmessage);
     setFormInline({
       ...formInline,
@@ -348,17 +353,29 @@ const SessionFlow: React.FC = () => {
             {userInfo.userId === item.userId && (
               <Tag
                 icon={<CheckCircleOutlined />}
-                color="success"
+                color="purple"
                 onClick={changeBitRate}
               >
                 增加比特率
               </Tag>
             )}
             {userInfo.userId !== item.userId && (
-              <div onClick={() => call(item)}>通话</div>
+              <Tag
+                icon={<WhatsAppOutlined />}
+                color="success"
+                onClick={() => call(item)}
+              >
+                通话
+              </Tag>
             )}
             {userInfo.userId === item.userId && (
-              <div onClick={openVideoOrNot}>切换语言/视频模式</div>
+              <Tag
+                icon={<SwapOutlined />}
+                color="#3b5999"
+                onClick={openVideoOrNot}
+              >
+                切换语音/视频模式
+              </Tag>
             )}
           </div>
         ))}
@@ -378,7 +395,7 @@ const SessionFlow: React.FC = () => {
       </div>
       <div>
         远端消息：
-        <Input defaultValue={formInline.rtcmessageRes} />
+        <Input value={formInline.rtcmessageRes} />
       </div>
       <div onClick={sendMessageUserRtcChannel}>立即发送</div>
       {/* 直播间 */}
